@@ -90,28 +90,40 @@
 }
 
 - (void)closeBtnDidClicked:(UIButton *)sender {
-    _action(ATClose);
-    [self hideWithType:HTShrink];
+    [self hideWithType:HTShrink completion:^{
+       _action(ATClose);
+    }];
 }
 - (void)firstBtnDidClicked:(UIButton *)sender {
-    _action(ATFirst);
-    [self hideWithType:HTEnlarge];
+    
+    [self hideWithType:HTEnlarge completion:^{
+        _action(ATFirst);
+    }];
 }
 - (void)secondBtnDidClicked:(UIButton *)sender {
-    _action(ATSecond);
-    [self hideWithType:HTEnlarge];
+    
+    [self hideWithType:HTEnlarge completion:^{
+        _action(ATSecond);
+    }];
 }
 
+/**
+ * 显示
+ */
 - (void)show {
     _animation = [[DRAlertViewAnimation alloc] init];
     _animation.contentView = self;
     [_animation show];
 }
 
-- (void)hideWithType:(HideType)type {
+/**
+ * 隐藏
+ */
+- (void)hideWithType:(HideType)type completion:(void(^)(void))complete {
     [_animation hideWithType:type completion:^{
         //
         NSLog(@"alert dismiss");
+        complete();
         [_animation removeAllSubviews];
         [_animation removeFromSuperview];
         _animation = nil;
@@ -120,6 +132,7 @@
 
 - (void)dealloc {
     NSLog(@"alert 释放");
+    [self removeAllSubviews];
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {

@@ -22,5 +22,5 @@ typedef void(^ActionBtnDidClick)(ActionType type);
 
 - (instancetype)initWithFrame:(CGRect)frame complete:(ActionBtnDidClick)complete;
 - (void)show;
-- (void)hideWithType:(HideType)type;
+- (void)hideWithType:(HideType)type completion:(void(^)(void))complete;
 @end

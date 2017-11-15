@@ -8,8 +8,8 @@
 
 #import "DRAlertViewAnimation.h"
 
-#define kCAAnimationDuration 1
-#define kFadeInDuration 0.37
+#define kCAAnimationDuration 0.5
+#define kFadeInDuration 0.3
 
 typedef void(^DismissDone)(void);
 
@@ -93,7 +93,7 @@ typedef void(^DismissDone)(void);
     
     CAKeyframeAnimation * animation;
     animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-    animation.duration = 1;
+    animation.duration = kFadeInDuration;
     animation.removedOnCompletion = YES;
     animation.fillMode = kCAFillModeForwards;
     NSMutableArray *values = [NSMutableArray array];
@@ -101,6 +101,7 @@ typedef void(^DismissDone)(void);
     [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1, 1.1, 1.0)]];
     [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
     animation.values = values;
+    animation.keyTimes = @[@(0),@(0.9),@(1)];
     [_contentView.layer addAnimation:animation forKey:nil];
 }
 
@@ -117,6 +118,7 @@ typedef void(^DismissDone)(void);
     [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1, 1.1, 1.0)]];
     [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.1, 0.1, 1.0)]];
     animation.values = values;
+    
     [_contentView.layer addAnimation:animation forKey:nil];
     
 }
